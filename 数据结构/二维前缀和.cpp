@@ -5,7 +5,7 @@ private:
 public:
     MatrixSum(vector<vector<int>> &matrix) {
         int m = matrix.size(), n = matrix[0].size();
-        // ×¢Òâ£ºÈç¹û matrix[i][j] ·¶Î§ºÜ´ó£¬ĞèÒªÊ¹ÓÃ long long
+        // æ³¨æ„ï¼šå¦‚æœ matrix[i][j] èŒƒå›´å¾ˆå¤§ï¼Œéœ€è¦ä½¿ç”¨ long long
         sum = vector<vector<int>>(m + 1, vector<int>(n + 1));
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
@@ -14,13 +14,13 @@ public:
         }
     }
 
-    // ·µ»Ø×óÉÏ½ÇÔÚ (r1,c1) ÓÒÏÂ½ÇÔÚ (r2-1,c2-1) µÄ×Ó¾ØÕóÔªËØºÍ£¨ÀàËÆÇ°×ººÍµÄ×ó±ÕÓÒ¿ª£©
+    // è¿”å›å·¦ä¸Šè§’åœ¨ (r1,c1) å³ä¸‹è§’åœ¨ (r2-1,c2-1) çš„å­çŸ©é˜µå…ƒç´ å’Œï¼ˆç±»ä¼¼å‰ç¼€å’Œçš„å·¦é—­å³å¼€ï¼‰
     int query(int r1, int c1, int r2, int c2) {
         return sum[r2][c2] - sum[r2][c1] - sum[r1][c2] + sum[r1][c1];
     }
 
-    // Èç¹ûÄã²»Ï°¹ß×ó±ÕÓÒ¿ª£¬Ò²¿ÉÒÔÕâÑùĞ´
-    // ·µ»Ø×óÉÏ½ÇÔÚ (r1,c1) ÓÒÏÂ½ÇÔÚ (r2,c2) µÄ×Ó¾ØÕóÔªËØºÍ
+    // å¦‚æœä½ ä¸ä¹ æƒ¯å·¦é—­å³å¼€ï¼Œä¹Ÿå¯ä»¥è¿™æ ·å†™
+    // è¿”å›å·¦ä¸Šè§’åœ¨ (r1,c1) å³ä¸‹è§’åœ¨ (r2,c2) çš„å­çŸ©é˜µå…ƒç´ å’Œ
     int query2(int r1, int c1, int r2, int c2) {
         return sum[r2 + 1][c2 + 1] - sum[r2 + 1][c1] - sum[r1][c2 + 1] + sum[r1][c1];
     }
