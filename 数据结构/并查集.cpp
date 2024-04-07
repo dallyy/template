@@ -82,3 +82,57 @@ public:
         return ans;
     }
 };
+//https://leetcode.cn/problems/minimum-cost-walk-in-weighted-graph/
+class Solution {
+public:
+    int f[100005];
+    int val[100005];
+    int find(int x){
+        if(f[x] == x) return x;
+        else return f[x] = find(f[x]);
+    }
+    
+    void Union(int x,int y){
+        x = find(x);
+        y = find(y);
+        if(x == y) return;
+        f[y] = x;
+        val[x] &= val[y];
+    }
+    
+    vector<int> minimumCost(int n, vector<vector<int>>& edges, vector<vector<int>>& query) {
+        vector<int> ans;
+        int m = edges.size();
+        for(int i=0;i<n;i++){
+            f[i] = i;
+            val[i] = (1<<30) - 1;
+        }
+        
+        for(auto e:edges){
+            int u = e[0], v = e[1], w = e[2];
+            Union(u,v);
+            u = find(u);
+            val[u] &= w;
+        }
+        
+        for(auto q:query){
+            int x = q[0], y = q[1];
+            if(x == y){
+                ans.push_back(0);
+                continue;
+            }
+            
+            x = find(x);
+            y = find(y);
+            if(x != y){
+                ans.push_back(-1);
+                continue;
+            }
+            
+            ans.push_back(val[x]);
+        }
+        return ans;
+    }
+};
+
+
