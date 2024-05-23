@@ -25,3 +25,37 @@ public:
         return sum[r2 + 1][c2 + 1] - sum[r2 + 1][c1] - sum[r1][c2 + 1] + sum[r1][c1];
     }
 };
+
+\\对角前缀和
+\\https://leetcode.cn/problems/get-biggest-three-rhombus-sums-in-a-grid/
+int sum1[101][101];
+int sum2[101][101];
+class Solution {
+public:
+    vector<int> getBiggestThree(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size();
+        set <int> S;
+        for(int i = 1; i <= m; ++i){
+            for(int j = 1; j <= n; ++j){
+                sum1[i][j] = sum1[i - 1][j - 1] + grid[i - 1][j - 1];  //维护正对角线方向前缀和
+                sum2[i][j] = sum2[i - 1][j + 1] + grid[i - 1][j - 1];  //维护副对角线方向前缀和
+            }
+        }
+        for(int i = 1; i <= m; ++i){
+            for(int j = 1; j <= n; ++j){
+                S.insert(grid[i - 1][j - 1]);
+                for(int k = 1; i + k <= m && i - k >= 1 && j + k <= n && j - k >= 1; ++k){
+                    int a = sum1[i + k][j] - sum1[i][j - k];
+                    int b = sum1[i][j + k] - sum1[i - k][j];
+                    int c = sum2[i + k][j] - sum2[i][j + k];
+                    int d = sum2[i][j - k] - sum2[i - k][j];
+                    S.insert(a + b + c + d - grid[i + k - 1][j - 1] + grid[i - k - 1][j - 1]);
+                    //因为前缀和算边的时候多算了上下顶点一次
+                }
+                while(S.size() > 3) S.erase(S.begin());
+            }
+        }
+        return vector <int> (S.rbegin(), S.rend());
+    }
+};
+
