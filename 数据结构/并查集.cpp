@@ -38,6 +38,24 @@ struct DSU {
         return siz[find(x)];
     }
 };
+//python
+p = list(range(n))
+size = [1] * n
+
+def find(x):
+    if p[x] != x:
+        # 路径压缩
+        p[x] = find(p[x])
+    return p[x]
+
+
+def union(a, b):
+    pa, pb = find(a), find(b)
+    if pa == pb:
+        return
+    p[pa] = pb
+    size[pb] += size[pa]
+
 //https://leetcode.cn/problems/largest-component-size-by-common-factor/?envType=list&envId=188q2gjJ
 constexpr int mx = 1e5;
 int d[mx+1]{},sr[mx+1],ind[mx+1],j=0,ans;
